@@ -1,4 +1,4 @@
-(* Copyright (C) 2017 Authors of BuckleScript
+(* Copyright (C) 2015-2016 Bloomberg Finance L.P.
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU Lesser General Public License as published by
@@ -22,36 +22,33 @@
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA. *)
 
+(** *)
+(*
+ Error:
+     *  {
+     *    row: 12,
+     *    column: 2, //can be undefined
+     *    text: "Missing argument",
+     *    type: "error" // or "warning" or "info"
+     *  }
+*)
 
-let exceptions = "Caml_exceptions"
-let io = "Caml_io"
-let sys = "Caml_sys"
-let lexer = "Caml_lexer"
-let parser = "Caml_parser"
-let obj_runtime = "Caml_obj"
-let array = "Caml_array"
-let format = "Caml_format"
-let string = "Caml_string"
-let bytes = "Caml_bytes"
-let char = "Caml_char"
-let float = "Caml_float"
-let hash_primitive = "Caml_hash_primitive" 
-let hash = "Caml_hash"
-let oo = "Caml_oo"
-let curry = "Curry"
-let caml_oo_curry = "Caml_oo_curry"
-let caml_primitive = "Caml_primitive"
-let int64 = "Caml_int64"
-let marshal = "Caml_marshal"
-let md5 = "Caml_md5"
-let weak = "Caml_weak"
+let () =  
+  Bs_conditional_initial.setup_env ();
+  Clflags.binary_annotations := false
 
-let gc = "Caml_gc"
-let int32 = "Caml_int32"
-let block = "Block"
-let caml_chrome_block = "Caml_chrome_debugger"
-let option = "Caml_option"
-let module_ = "Caml_module"
-let external_polyfill = "Caml_external_polyfill"
-let caml_js_exceptions = "Caml_js_exceptions"
-let caml_splice_call = "Caml_splice_call"
+
+(* To add a directory to the load path *)
+
+let dir_directory d =
+  Config.load_path := d :: !Config.load_path
+
+
+let () =
+  dir_directory "/static/cmis"
+
+let ocaml = Parse.implementation
+
+(* local variables: *)
+(* compile-command: "ocamlbuild -use-ocamlfind -pkg compiler-libs -no-hygiene driver.cmo" *)
+(* end: *)

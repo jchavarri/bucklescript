@@ -784,7 +784,8 @@ let translate loc (prim_name : string)
     | "caml_ml_open_descriptor_out" when 
       args_const_unbox_approx_int_two args -> 
       E.runtime_ref Js_runtime_modules.io "stderr"
-
+    | "caml_input_value_from_string"
+      -> call Js_runtime_modules.marshal
     | "caml_ba_create"
     | "caml_ba_get_generic"
     | "caml_ba_set_generic"
@@ -812,7 +813,6 @@ let translate loc (prim_name : string)
     (* caml_ba_dim_3,  *)
     | "caml_output_value_to_buffer"
     | "caml_marshal_data_size"
-    | "caml_input_value_from_string"
     | "caml_output_value"
     | "caml_input_value"
     | "caml_output_value_to_string"
