@@ -27,3 +27,27 @@ jobs: # a collection of steps
       - run: # run tests
           name: test
           command: npm test
+  playground:
+      - run: mkdir playground/stdlib
+      - run: BS_PLAYGROUND=../playground ./scripts/repl.js -prepublish
+      - run: node -e "require('./exports.js'); eval(ocaml.compile('Js.log Sys.ocaml_version').js_code)"
+          working-directory: ./playground
+
+workflows:
+  version: 2
+  commit:
+    jobs:
+      - build
+  nightly:
+    triggers:
+      - schedule:
+          cron: "0 0 * * *"
+          filters:
+            branches:
+              only:
+                - master
+    jobs:
+      - build
+      - playground
+        requires:
+            - build
